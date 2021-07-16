@@ -198,7 +198,8 @@ for t in range(epochs):
     test_loop(test_dataloader, model, loss_fn)
 print("Done!")
 
-
+'''Saving'''
+torch.save(model, 'optimizing_model_test.pth')
 
 #################################################################
 # Further Reading
