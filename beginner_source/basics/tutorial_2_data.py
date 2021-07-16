@@ -52,6 +52,12 @@ from torchvision.transforms import ToTensor
 import matplotlib.pyplot as plt
 
 
+# We load the `FashionMNIST Dataset <https://pytorch.org/vision/stable/datasets.html#fashion-mnist>`_ with the following parameters:
+#  - ``root`` is the path where the train/test data is stored,
+#  - ``train`` specifies training or test dataset,
+#  - ``download=True`` downloads the data from the internet if it's not available at ``root``.
+#  - ``transform`` and ``target_transform`` specify the feature and label transformations
+
 training_data = datasets.FashionMNIST(
     root="data",
     train=True,
@@ -236,6 +242,12 @@ label = train_labels[0]
 plt.imshow(img, cmap="gray")
 plt.show()
 print(f"Label: {label}")
+
+# output
+# Feature batch shape: torch.Size([64, 1, 28, 28])
+# Labels batch shape: torch.Size([64])
+# Label: 2
+
 
 ######################################################################
 # --------------
