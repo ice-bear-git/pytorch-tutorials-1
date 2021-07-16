@@ -41,7 +41,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print('Using {} device'.format(device))
 
 ##############################################
-# Define the Class
+# Define the Class !!!!!!!!!!!!!!!!!!!
 # -------------------------
 # We define our neural network by subclassing ``nn.Module``, and 
 # initialize the neural network layers in ``__init__``. Every ``nn.Module`` subclass implements
@@ -86,7 +86,7 @@ logits = model(X)
 pred_probab = nn.Softmax(dim=1)(logits)
 y_pred = pred_probab.argmax(1)
 print(f"Predicted class: {y_pred}")
-
+# Predicted class: tensor([1], device='cuda:0')
 
 ######################################################################
 # --------------
@@ -104,6 +104,9 @@ print(f"Predicted class: {y_pred}")
 input_image = torch.rand(3,28,28)
 print(input_image.size())
 
+# torch.Size([3, 28, 28])
+
+
 ##################################################
 # nn.Flatten
 # ^^^^^^^^^^^^^^^^^^^^^^
@@ -115,6 +118,9 @@ flatten = nn.Flatten()
 flat_image = flatten(input_image)
 print(flat_image.size())
 
+#  nn.Flatten layer to convert each 2D 28x28 image into a contiguous array of 784=28*28 pixel values 
+# torch.Size([3, 784])
+
 ##############################################
 # nn.Linear 
 # ^^^^^^^^^^^^^^^^^^^^^^
@@ -124,6 +130,7 @@ print(flat_image.size())
 layer1 = nn.Linear(in_features=28*28, out_features=20)
 hidden1 = layer1(flat_image)
 print(hidden1.size())
+
 
 
 #################################################
@@ -141,6 +148,29 @@ hidden1 = nn.ReLU()(hidden1)
 print(f"After ReLU: {hidden1}")
 
 
+"""最常见的一种Activator Function， 可以把所有小于0的部分变成0，以此来破坏线性拟合的发生"""
+# output
+# Before ReLU: tensor([[-0.0355,  0.4598, -0.6033, -0.4020,  0.2564, -0.0131,  0.1266, -0.0853,
+#          -0.2737, -0.2881, -0.2638, -0.1434,  0.4234, -0.2435,  0.1270,  0.0578,
+#          -0.2097, -0.1305, -0.1978, -0.1190],
+#         [ 0.1109,  0.2047, -0.5848, -0.2619,  0.1655, -0.1921, -0.3267, -0.3982,
+#          -0.0389, -0.0965, -0.3208,  0.1393,  0.6055, -0.2739,  0.1808, -0.0544,
+#          -0.4203, -0.3427,  0.1557, -0.0993],
+#         [ 0.2247,  0.4551, -0.4619, -0.3765, -0.1110, -0.0804, -0.0426, -0.2185,
+#           0.2792, -0.2306, -0.0773,  0.2841,  0.2210,  0.1206,  0.0541,  0.0560,
+#          -0.5151, -0.2355,  0.1623,  0.1236]], grad_fn=<AddmmBackward>)
+
+
+# After ReLU: tensor([[0.0000, 0.4598, 0.0000, 0.0000, 0.2564, 0.0000, 0.1266, 0.0000, 0.0000,
+#          0.0000, 0.0000, 0.0000, 0.4234, 0.0000, 0.1270, 0.0578, 0.0000, 0.0000,
+#          0.0000, 0.0000],
+#         [0.1109, 0.2047, 0.0000, 0.0000, 0.1655, 0.0000, 0.0000, 0.0000, 0.0000,
+#          0.0000, 0.0000, 0.1393, 0.6055, 0.0000, 0.1808, 0.0000, 0.0000, 0.0000,
+#          0.1557, 0.0000],
+#         [0.2247, 0.4551, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.2792,
+#          0.0000, 0.0000, 0.2841, 0.2210, 0.1206, 0.0541, 0.0560, 0.0000, 0.0000,
+#          0.1623, 0.1236]], grad_fn=<ReluBackward0>)
+
 
 #################################################
 # nn.Sequential
@@ -148,7 +178,7 @@ print(f"After ReLU: {hidden1}")
 # `nn.Sequential <https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html>`_ is an ordered 
 # container of modules. The data is passed through all the modules in the same order as defined. You can use
 # sequential containers to put together a quick network like ``seq_modules``.
-
+"""把之前定义好的每一层拼接起来"""
 seq_modules = nn.Sequential(
     flatten,
     layer1,
@@ -187,6 +217,42 @@ print("Model structure: ", model, "\n\n")
 for name, param in model.named_parameters():
     print(f"Layer: {name} | Size: {param.size()} | Values : {param[:2]} \n")
 
+    
+    
+"""结果！通过model.named_parameters()与默认的model来窥探其内部的parameters"""
+# Model structure:  NeuralNetwork(
+#   (flatten): Flatten(start_dim=1, end_dim=-1)
+#   (linear_relu_stack): Sequential(
+#     (0): Linear(in_features=784, out_features=512, bias=True)
+#     (1): ReLU()
+#     (2): Linear(in_features=512, out_features=512, bias=True)
+#     (3): ReLU()
+#     (4): Linear(in_features=512, out_features=10, bias=True)
+#     (5): ReLU()
+#   )
+# ) 
+
+
+# Layer: linear_relu_stack.0.weight | Size: torch.Size([512, 784]) | Values : tensor([[ 0.0242, -0.0002, -0.0232,  ..., -0.0203, -0.0267,  0.0066],
+#         [-0.0322, -0.0067, -0.0182,  ..., -0.0134, -0.0055, -0.0030]],
+#        device='cuda:0', grad_fn=<SliceBackward>) 
+
+# Layer: linear_relu_stack.0.bias | Size: torch.Size([512]) | Values : tensor([0.0346, 0.0123], device='cuda:0', grad_fn=<SliceBackward>) 
+
+# Layer: linear_relu_stack.2.weight | Size: torch.Size([512, 512]) | Values : tensor([[ 0.0043, -0.0057,  0.0116,  ..., -0.0073, -0.0327, -0.0289],
+#         [ 0.0311,  0.0312, -0.0264,  ...,  0.0413, -0.0338,  0.0071]],
+#        device='cuda:0', grad_fn=<SliceBackward>) 
+
+# Layer: linear_relu_stack.2.bias | Size: torch.Size([512]) | Values : tensor([-0.0058,  0.0080], device='cuda:0', grad_fn=<SliceBackward>) 
+
+# Layer: linear_relu_stack.4.weight | Size: torch.Size([10, 512]) | Values : tensor([[-0.0140,  0.0323, -0.0378,  ..., -0.0163, -0.0349, -0.0080],
+#         [ 0.0165,  0.0225, -0.0081,  ..., -0.0045, -0.0253, -0.0023]],
+#        device='cuda:0', grad_fn=<SliceBackward>) 
+
+# Layer: linear_relu_stack.4.bias | Size: torch.Size([10]) | Values : tensor([0.0041, 0.0012], device='cuda:0', grad_fn=<SliceBackward>) 
+    
+    
+    
 ######################################################################
 # --------------
 #
