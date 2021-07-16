@@ -9,7 +9,7 @@
 `Optimization <optimization_tutorial.html>`_ ||
 `Save & Load Model <saveloadrun_tutorial.html>`_
 
-Automatic Differentiation with ``torch.autograd``
+Automatic Differentiation [Back Propagation] with ``torch.autograd``
 =======================================
 
 When training neural networks, the most frequently used algorithm is
@@ -35,6 +35,7 @@ b = torch.randn(3, requires_grad=True)
 z = torch.matmul(x, w)+b
 loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
 
+# 上述的代码实现：z=wx+b 与y之间的loss计算
 
 ######################################################################
 # Tensors, Functions and Computational graph
@@ -114,6 +115,7 @@ print(b.grad)
 z = torch.matmul(x, w)+b
 print(z.requires_grad)
 
+"""可以Disabling gradient tracking"""
 with torch.no_grad():
     z = torch.matmul(x, w)+b
 print(z.requires_grad)
@@ -124,6 +126,7 @@ print(z.requires_grad)
 # on the tensor:
 #
 
+"""可以Disabling gradient tracking【方法二】"""
 z = torch.matmul(x, w)+b
 z_det = z.detach()
 print(z_det.requires_grad)
@@ -207,8 +210,12 @@ inp = torch.eye(5, requires_grad=True)
 out = (inp+1).pow(2)
 out.backward(torch.ones_like(inp), retain_graph=True)
 print("First call\n", inp.grad)
+'''这一步其实是错的，因为没有在上次backward之后把gradient清零'''
 out.backward(torch.ones_like(inp), retain_graph=True)
 print("\nSecond call\n", inp.grad)
+
+"""f you want to compute the proper gradients, 
+you need to zero out the grad property before. In real-life training an optimizer helps us to do this."""
 inp.grad.zero_()
 out.backward(torch.ones_like(inp), retain_graph=True)
 print("\nCall after zeroing gradients\n", inp.grad)
