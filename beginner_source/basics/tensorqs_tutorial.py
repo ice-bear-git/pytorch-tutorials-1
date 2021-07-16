@@ -73,6 +73,19 @@ print(f"Ones Tensor: \n {ones_tensor} \n")
 print(f"Zeros Tensor: \n {zeros_tensor}")
 
 
+# [以下是我们的结果]
+# Random Tensor: 
+#  tensor([[0.2409, 0.1945, 0.8341],
+#         [0.5580, 0.4715, 0.8001]]) 
+
+# Ones Tensor: 
+#  tensor([[1., 1., 1.],
+#         [1., 1., 1.]]) 
+
+# Zeros Tensor: 
+#  tensor([[0., 0., 0.],
+#         [0., 0., 0.]])
+
 
 ######################################################################
 # --------------
@@ -90,6 +103,10 @@ print(f"Shape of tensor: {tensor.shape}")
 print(f"Datatype of tensor: {tensor.dtype}")
 print(f"Device tensor is stored on: {tensor.device}")
 
+# output
+# Shape of tensor: torch.Size([3, 4])
+# Datatype of tensor: torch.float32
+# Device tensor is stored on: cpu
 
 ######################################################################
 # --------------
@@ -204,6 +221,10 @@ t = torch.ones(5)
 print(f"t: {t}")
 n = t.numpy()
 print(f"n: {n}")
+
+# output
+# t: tensor([1., 1., 1., 1., 1.])
+# n: [1. 1. 1. 1. 1.]
 
 ######################################################################
 # A change in the tensor reflects in the NumPy array.
