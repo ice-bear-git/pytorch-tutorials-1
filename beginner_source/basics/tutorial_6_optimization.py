@@ -69,7 +69,7 @@ model = NeuralNetwork()
 
 
 ##############################################
-# Hyperparameters 
+# Hyperparameters 【Hyperparameters are adjustable parameters that let you control the model optimization process.】
 # -----------------
 #
 # Hyperparameters are adjustable parameters that let you control the model optimization process. 
@@ -82,10 +82,11 @@ model = NeuralNetwork()
 #  - **Learning Rate** - how much to update models parameters at each batch/epoch. Smaller values yield slow learning speed, while large values may result in unpredictable behavior during training.
 #
 
-learning_rate = 1e-3
-batch_size = 64
-epochs = 5
 
+# Hyperparameters 【Hyperparameters are adjustable parameters that let you control the model optimization process】
+learning_rate = 1e-3    # how much to update models parameters at each batch/epoch. Smaller values yield slow learning speed
+batch_size = 64 # the number of data samples propagated through the network before the parameters are updated
+epochs = 5  # the number times to iterate over the dataset
 
 
 #####################################
@@ -116,13 +117,13 @@ epochs = 5
 # 
 # We pass our model's output logits to ``nn.CrossEntropyLoss``, which will normalize the logits and compute the prediction error.
 
+
 # Initialize the loss function
 loss_fn = nn.CrossEntropyLoss()
 
 
-
 #####################################
-# Optimizer
+# Optimizer 【define how this process is performed (e.g. SGD)】
 # ~~~~~~~~~~~~~~~~~
 #
 # Optimization is the process of adjusting model parameters to reduce model error in each training step. **Optimization algorithms** define how this process is performed (in this example we use Stochastic Gradient Descent).
@@ -148,6 +149,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 # We define ``train_loop`` that loops over our optimization code, and ``test_loop`` that 
 # evaluates the model's performance against our test data.
 
+'''标准的optimization implementation process'''
 def train_loop(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     for batch, (X, y) in enumerate(dataloader):        
@@ -189,6 +191,7 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 epochs = 10
+# 打印进度
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     train_loop(train_dataloader, model, loss_fn, optimizer)
