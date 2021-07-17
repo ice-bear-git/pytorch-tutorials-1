@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 PyTorch: Defining New autograd Functions
+【如果fitting polynomial本身的系数是一个随着input会改变的，那么我们必须手动建立customed autograd function】
 ----------------------------------------
 
 A third order polynomial, trained to predict :math:`y=\sin(x)` from :math:`-\pi`
