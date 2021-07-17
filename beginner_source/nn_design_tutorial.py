@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 What is `torch.nn` *really*?
+【https://pytorch.org/tutorials/beginner/nn_tutorial.html】
+
+[Thanks to Pytorch’s nn.Module, nn.Parameter, Dataset, and DataLoader, 
+our training loop is now dramatically smaller and easier to understand.
+Let’s now try to add the basic features necessary to create effective models in practice.]
+当存在validation时，在训练循环中有model.eval()
+最后有关于CNN的代码，那部分是很关键的，建议一定要去看看
+
 ============================
 by Jeremy Howard, `fast.ai <https://www.fast.ai>`_. Thanks to Rachel Thomas and Francisco Ingham.
 """
@@ -265,7 +273,10 @@ print(loss_func(model(xb), yb), accuracy(model(xb), yb))
 # the two. So we can even remove the activation function from our model.
 
 import torch.nn.functional as F
-
+"""
+If you’re using negative log likelihood loss and log softmax activation,
+then Pytorch provides a single function F.cross_entropy that combines the two.
+"""
 loss_func = F.cross_entropy
 
 def model(xb):
@@ -340,7 +351,7 @@ print(loss_func(model(xb), yb))
 #
 # We'll wrap our little training loop in a ``fit`` function so we can run it
 # again later.
-
+"""可以把trainning loop放到fit函数里面"""
 def fit():
     for epoch in range(epochs):
         for i in range((n - 1) // bs + 1):
@@ -673,7 +684,13 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
 # Each convolution is followed by a ReLU.  At the end, we perform an
 # average pooling.  (Note that ``view`` is PyTorch's version of numpy's
 # ``reshape``)
-
+"""
+We will use Pytorch’s predefined Conv2d class
+as our convolutional layer. We define a CNN with 3 convolutional layers.
+Each convolution is followed by a ReLU. At the end, we perform an
+average pooling. (Note that view is PyTorch’s version of numpy’s
+reshape)
+"""
 class Mnist_CNN(nn.Module):
     def __init__(self):
         super().__init__()
