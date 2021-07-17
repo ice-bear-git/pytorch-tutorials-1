@@ -37,9 +37,14 @@ xx = x.unsqueeze(-1).pow(p)
 # linear function, and holds internal Tensors for its weight and bias.
 # The Flatten layer flatens the output of the linear layer to a 1D tensor,
 # to match the shape of `y`.
+'''
+nn.Sequential is a Module which contains other Modules, 
+and applies them in sequence to produce its output.
+这里还可以认为再添加nn中间层，但是效果不一定会变好
+'''
 model = torch.nn.Sequential(
     torch.nn.Linear(3, 1),
-    torch.nn.Flatten(0, 1)
+    torch.nn.Flatten(0, 1)  # The Flatten layer flatens the output of the linear layer to a 1D tensor, to match the shape of `y`.
 )
 
 # The nn package also contains definitions of popular loss functions; in this
