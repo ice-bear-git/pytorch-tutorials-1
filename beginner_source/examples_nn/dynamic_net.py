@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 PyTorch: Control Flow + Weight Sharing
+【引入动态的函数库，可以自己在3-5次函数中选择拟合方式】
 --------------------------------------
 
 To showcase the power of PyTorch dynamic graphs, we will implement a very strange
