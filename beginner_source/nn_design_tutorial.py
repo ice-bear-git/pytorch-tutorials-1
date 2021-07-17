@@ -811,6 +811,9 @@ model = nn.Sequential(
     nn.ReLU(),
     nn.Conv2d(16, 10, kernel_size=3, stride=2, padding=1),
     nn.ReLU(),
+#         we can replace nn.AvgPool2d with nn.AdaptiveAvgPool2d, 
+#         which allows us to define the size of the output tensor we want, 
+#         rather than the input tensor we have.
     nn.AdaptiveAvgPool2d(1),
     Lambda(lambda x: x.view(x.size(0), -1)),
 )
