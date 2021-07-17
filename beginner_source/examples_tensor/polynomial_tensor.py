@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Tensors
+PyTorch: Tensors [https://pytorch.org/tutorials/beginner/pytorch_with_examples.html] 可以用GPU计算
 ----------------
 
 A third order polynomial, trained to predict :math:`y=\sin(x)` from :math:`-\pi`
