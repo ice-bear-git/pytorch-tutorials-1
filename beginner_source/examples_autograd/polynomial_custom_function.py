@@ -29,6 +29,12 @@ class LegendrePolynomial3(torch.autograd.Function):
     which operate on Tensors.
     """
 
+    
+    """
+    此处引入的P3是Legendre polynomials，
+    forward中return的0.5 * (5 * input ** 3 - 3 * input)即是采用的Legendre polynomials
+    而backward中return的是上述多项式的derivation
+    """
     @staticmethod
     def forward(ctx, input):
         """
@@ -73,6 +79,8 @@ d = torch.full((), 0.3, device=device, dtype=dtype, requires_grad=True)
 
 learning_rate = 5e-6
 for t in range(2000):
+    
+    '''若使用自己定义的autograd function，只是多了一步创建P3这一行而已'''
     # To apply our Function, we use Function.apply method. We alias this as 'P3'.
     P3 = LegendrePolynomial3.apply
 
