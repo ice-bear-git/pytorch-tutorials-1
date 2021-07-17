@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Warm-up: numpy
+Warm-up: numpy 【本质上是用numpy，通过三次函数，来拟合sinx---这就是回归问题】
 --------------
 
 A third order polynomial, trained to predict :math:`y=\sin(x)` from :math:`-\pi`
