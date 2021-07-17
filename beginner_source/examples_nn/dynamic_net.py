@@ -39,6 +39,7 @@ class DynamicNet(torch.nn.Module):
         times when defining a computational graph.
         """
         y = self.a + self.b * x + self.c * x ** 2 + self.d * x ** 3
+        # 下一行取exp=4，5 然后让e成为他的系数【这两项的系数将会相同】
         for exp in range(4, random.randint(4, 6)):
             y = y + self.e * x ** exp
         return y
@@ -60,6 +61,7 @@ model = DynamicNet()
 # Construct our loss function and an Optimizer. Training this strange model with
 # vanilla stochastic gradient descent is tough, so we use momentum
 criterion = torch.nn.MSELoss(reduction='sum')
+# 保证一定的惯性--来避开“陷进局部最优解”momentum
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-8, momentum=0.9)
 for t in range(30000):
     # Forward pass: Compute predicted y by passing x to the model
