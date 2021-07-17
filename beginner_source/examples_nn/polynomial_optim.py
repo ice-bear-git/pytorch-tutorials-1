@@ -36,6 +36,10 @@ loss_fn = torch.nn.MSELoss(reduction='sum')
 # the model for us. Here we will use RMSprop; the optim package contains many other
 # optimization algorithms. The first argument to the RMSprop constructor tells the
 # optimizer which Tensors it should update.
+"""
+引入这部分会代替我们手动update weight的过程,
+之后，只需要zero_grad() & step() optimizer就好
+"""
 learning_rate = 1e-3
 optimizer = torch.optim.RMSprop(model.parameters(), lr=learning_rate)
 for t in range(2000):
@@ -60,7 +64,7 @@ for t in range(2000):
 
     # Calling the step function on an Optimizer makes an update to its
     # parameters
-    optimizer.step()
+    optimizer.step()    # 自动更新weights
 
 
 linear_layer = model[0]
