@@ -13,7 +13,12 @@ need to define your model this way.
 import torch
 import math
 
-
+"""
+直接定义成自己的model，而不是简单且无脑得从linear model开始拼。
+我猜测，这种方式更适合已知部分model时使用。
+比如知道一个大概的力学定律，但不懂细节
+可以用这个model，或者将其当作多层model中的一个环节
+"""
 class Polynomial3(torch.nn.Module):
     def __init__(self):
         """
@@ -52,7 +57,7 @@ model = Polynomial3()
 # in the SGD constructor will contain the learnable parameters (defined 
 # with torch.nn.Parameter) which are members of the model.
 criterion = torch.nn.MSELoss(reduction='sum')
-optimizer = torch.optim.SGD(model.parameters(), lr=1e-6)
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-6)    # SGD真的是太常见了
 for t in range(2000):
     # Forward pass: Compute predicted y by passing x to the model
     y_pred = model(x)
