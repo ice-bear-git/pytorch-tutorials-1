@@ -17,6 +17,12 @@ holding the gradient of ``x`` with respect to some scalar value.
 import torch
 import math
 
+
+'''
+If x is a Tensor that has
+x.requires_grad=True then x.grad is another Tensor holding the
+gradient of x with respect to some scalar value.
+'''
 dtype = torch.float
 device = torch.device("cpu")
 # device = torch.device("cuda:0")  # Uncomment this to run on GPU
@@ -36,6 +42,10 @@ b = torch.randn((), device=device, dtype=dtype, requires_grad=True)
 c = torch.randn((), device=device, dtype=dtype, requires_grad=True)
 d = torch.randn((), device=device, dtype=dtype, requires_grad=True)
 
+'''
+Here we use PyTorch Tensors and autograd to implement our fitting sine wave with third order polynomial example; 
+now we no longer need to manually implement the backward pass through the network
+'''
 learning_rate = 1e-6
 for t in range(2000):
     # Forward pass: compute predicted y using operations on Tensors.
@@ -63,6 +73,7 @@ for t in range(2000):
         c -= learning_rate * c.grad
         d -= learning_rate * d.grad
 
+        '''一定记得要清零！'''
         # Manually zero the gradients after updating weights
         a.grad = None
         b.grad = None
